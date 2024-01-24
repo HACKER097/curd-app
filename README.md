@@ -2,6 +2,19 @@
 
 ## Bugs encountered
 
+### Empty response
+
+While creating the `/getRecord` endpoint, I had added some print statements to see if everything is working correctly. One of them was
+
+```python
+print(cur.fetchall())
+```
+
+because `cur.fetchall()` method returns the output of the query, when I called it again for responding to the request, it gave an empty array `[]` as the output because there was no query made.
+
+This was easily fixed by removing the print statement. In the future, if the project is large enough, it would be better to use a logging library to avoid these bugs.
+
+
 ### No valid response
 
 ```python
