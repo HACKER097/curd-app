@@ -4,13 +4,13 @@ import sqlite3
 app = Flask(__name__)
 
 @app.route("/")
-def home():
-    return "HELLO WORLD"
+def index():
+    return 200
 
-@app.route("/api/addRecord")
+@app.route("/api/addRecord", methods=['POST', 'GET'])
 def addRecord():
-    name = request.form.get("name")
-    num = request.form.get("num")
+    name = request.args.get("name")
+    num = request.args.get("num")
 
     con = sqlite3.connect("database.db")
     cur = con.cursor()
@@ -20,10 +20,12 @@ def addRecord():
     con.commit()
     con.close()
 
-@app.route("api/deleteRecord")
+    return "OK"
+
+@app.route("/api/deleteRecord")
 def deleteRecord():
-    name = request.form.get("name")
-    num = request.form.get("num")
+    name = request.args.get("name")
+    num = request.args.get("num")
 
     con = sqlite3.connect("database.db")
     cur = con.cursor()
@@ -33,25 +35,31 @@ def deleteRecord():
     con.commit()
     con.close()
 
-@app.route("api/getRecord")
+    return "OK"
+
+@app.route("/api/getRecord")
 def getRecord():
-    name = request.form.get("name")
-    num = request.form.get("num")
+    name = request.args.get("name")
+    num = request.args.get("num")
 
     con = sqlite3.connect("database.db")
     cur = con.cursor()
 
     cur.execute("SELECT * FROM CONTACTS WHERE NAME = ? AND NUM = ?", (name, num))
 
-    return jsonify(cur.fetchall())
+    data = cur.fetchall()
 
-@app.route("api/updateRecord")
+    return jsonify(data)
+
+@app.route("/api/updateRecord")
 def updateRecord():
-    name = request.form.get("name")
-    num = request.form.get("num")
+    name = request.args.get("name")
+    num = request.args.get("num")
 
-    new_name = request.form.get("newname")
-    new_num = request.form.get("newnum")
+    new_name = request.args.get("newname")
+    new_num = request.args.get("newnum")
+
+    print(name, num, new_name, new_num)
     
     con = sqlite3.connect("database.db")
     cur = con.cursor()
@@ -61,3 +69,8 @@ def updateRecord():
 
     con.commit()
     con.close()
+
+    return "OK"
+
+if __name__ == '__main__':
+    app.run()
