@@ -1,16 +1,16 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import sqlite3
 
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return 200
+    return render_template("index.html")
 
-@app.route("/api/addRecord", methods=['POST', 'GET'])
+@app.route("/api/addRecord", methods=['POST'])
 def addRecord():
-    name = request.args.get("name")
-    num = request.args.get("num")
+    name = request.form.get("name")
+    num = request.form.get("num")
 
     con = sqlite3.connect("database.db")
     cur = con.cursor()
@@ -22,10 +22,10 @@ def addRecord():
 
     return "OK"
 
-@app.route("/api/deleteRecord")
+@app.route("/api/deleteRecord", methods=['POST'])
 def deleteRecord():
-    name = request.args.get("name")
-    num = request.args.get("num")
+    name = request.form.get("name")
+    num = request.form.get("num")
 
     con = sqlite3.connect("database.db")
     cur = con.cursor()
@@ -37,10 +37,10 @@ def deleteRecord():
 
     return "OK"
 
-@app.route("/api/getRecord")
+@app.route("/api/getRecord", methods=['POST'])
 def getRecord():
-    name = request.args.get("name")
-    num = request.args.get("num")
+    name = request.form.get("name")
+    num = request.form.get("num")
 
     con = sqlite3.connect("database.db")
     cur = con.cursor()
@@ -51,13 +51,13 @@ def getRecord():
 
     return jsonify(data)
 
-@app.route("/api/updateRecord")
+@app.route("/api/updateRecord", methods=['POST'])
 def updateRecord():
-    name = request.args.get("name")
-    num = request.args.get("num")
+    name = request.form.get("name")
+    num = request.form.get("num")
 
-    new_name = request.args.get("newname")
-    new_num = request.args.get("newnum")
+    new_name = request.form.get("newname")
+    new_num = request.form.get("newnum")
 
     print(name, num, new_name, new_num)
     

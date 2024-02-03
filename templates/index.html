@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Management UI</title>
+</head>
+<body>
+
+    <h1>Contact Management UI</h1>
+
+    <h2>Add Record</h2>
+    <form id="addRecordForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="num">Number:</label>
+        <input type="text" id="num" name="num" required>
+        <button type="button" onclick="addRecord()">Add Record</button>
+    </form>
+
+    <h2>Delete Record</h2>
+    <form id="deleteRecordForm">
+        <label for="deleteName">Name:</label>
+        <input type="text" id="deleteName" name="deleteName" required>
+        <label for="deleteNum">Number:</label>
+        <input type="text" id="deleteNum" name="deleteNum" required>
+        <button type="button" onclick="deleteRecord()">Delete Record</button>
+    </form>
+
+    <h2>Get Record</h2>
+    <form id="getRecordForm">
+        <label for="getName">Name:</label>
+        <input type="text" id="getName" name="getName" required>
+        <label for="getNum">Number:</label>
+        <input type="text" id="getNum" name="getNum" required>
+        <button type="button" onclick="getRecord()">Get Record</button>
+        <p id="recordResult"></p>
+    </form>
+
+    <h2>Update Record</h2>
+    <form id="updateRecordForm">
+        <label for="updateName">Name:</label>
+        <input type="text" id="updateName" name="updateName" required>
+        <label for="updateNum">Number:</label>
+        <input type="text" id="updateNum" name="updateNum" required>
+        <label for="newName">New Name:</label>
+        <input type="text" id="newName" name="newName" required>
+        <label for="newNum">New Number:</label>
+        <input type="text" id="newNum" name="newNum" required>
+        <button type="button" onclick="updateRecord()">Update Record</button>
+    </form>
+
+    <script>
+        function addRecord() {
+            const name = document.getElementById("name").value;
+            const num = document.getElementById("num").value;
+    
+            fetch('/api/addRecord', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `name=${name}&num=${num}`,
+            })
+            .then(response => response.text())
+            .then(result => alert(result))
+            .catch(error => console.error('Error:', error));
+        }
+    
+        function deleteRecord() {
+            const deleteName = document.getElementById("deleteName").value;
+            const deleteNum = document.getElementById("deleteNum").value;
+    
+            fetch('/api/deleteRecord', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `name=${deleteName}&num=${deleteNum}`,
+            })
+            .then(response => response.text())
+            .then(result => alert(result))
+            .catch(error => console.error('Error:', error));
+        }
+    
+        function getRecord() {
+            const getName = document.getElementById("getName").value;
+            const getNum = document.getElementById("getNum").value;
+    
+            fetch('/api/getRecord', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `name=${getName}&num=${getNum}`,
+            })
+            .then(response => response.json())
+            .then(data => document.getElementById("recordResult").innerText = JSON.stringify(data))
+            .catch(error => console.error('Error:', error));
+        }
+    
+        function updateRecord() {
+            const updateName = document.getElementById("updateName").value;
+            const updateNum = document.getElementById("updateNum").value;
+            const newName = document.getElementById("newName").value;
+            const newNum = document.getElementById("newNum").value;
+    
+            fetch('/api/updateRecord', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `name=${updateName}&num=${updateNum}&newname=${newName}&newnum=${newNum}`,
+            })
+            .then(response => response.text())
+            .then(result => alert(result))
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+h1, h2 {
+    color: #61dafb;
+}
+
+form {
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    background-color: #444;
+    color: #fff;
+    border: 1px solid #61dafb;
+}
+
+button {
+    background-color: #61dafb;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #508cb5;
+}
+
+p {
+    margin-top: 10px;
+}
+
+.alert {
+    background-color: #d32f2f;
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+}
+</style>
+
+</body>
+</html>
