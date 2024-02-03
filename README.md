@@ -59,3 +59,26 @@ which fixed the issue
 1. [Flask – (Creating first simple application)](https://www.geeksforgeeks.org/flask-creating-first-simple-application/)
 2. [ How to Use CURL to Send API Requests ](https://devqa.io/curl-sending-api-requests/)
 3. [Contacts app](https://github.com/HACKER097/Contacts-app)
+
+
+## Breaking the app
+
+### Trying large values
+
+It was my thought that trying absurdly large values (2,499,858 chars, enough to crash mousepad) would crash the server, or give an error at the very least. But That did not happen. Infact sqlite was able to handle it perfectly, and return the correct data when requested.
+
+## Trying unicode
+
+Unicode also works perfectly, sqlite was able to handle unicode and return the correct data. Viewing the database, the unicode chars are stored in unicode, and not formated or encoded in any other way.
+
+## Trying special chars
+
+Even though sqlite is able to insert and access data which contains all special chars (eg `!@#$%^&*()_+{}|:"<>?`), there is an issue with post the way we are making post requests.
+
+* Inserting `!@#$%^&*()_+{}|:"<>?` manually inserts `!@#$%^&*()_+{}|:"<>?`
+
+* Inserting `!@#$%^&*()_+{}|:"<>?` using the api inserts `!@#$%^`
+
+The issue seems to be with `&` because everything after it is truncated before incersion. Tryig the same string without `&` inserts everything correctly
+
+* Inserting `!@#$%^*()_+{}|:"<>?` using api inserts `!@#$%^*()_+{}|:"<>?`
