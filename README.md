@@ -82,3 +82,14 @@ Even though sqlite is able to insert and access data which contains all special 
 The issue seems to be with `&` because everything after it is truncated before incersion. Tryig the same string without `&` inserts everything correctly
 
 * Inserting `!@#$%^*()_+{}|:"<>?` using api inserts `!@#$%^*()_+{}|:"<>?`
+
+The problem is caused by not encoding the URI proberly, and can be fixed by `encodeURIComponent()`
+
+With the fix, it now works with `&` or any other symbols that might have caused cause problems.
+
+## Cross site scripting
+
+Trying to inject html into the database, and have it run some js when queried did not work
+
+![Alt text](image.png)
+

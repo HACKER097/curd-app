@@ -49,11 +49,10 @@
         <input type="text" id="newNum" name="newNum" required>
         <button type="button" onclick="updateRecord()">Update Record</button>
     </form>
-
     <script>
         function addRecord() {
-            const name = document.getElementById("name").value;
-            const num = document.getElementById("num").value;
+            const name = encodeURIComponent(document.getElementById("name").value);
+            const num = encodeURIComponent(document.getElementById("num").value);
     
             fetch('/api/addRecord', {
                 method: 'POST',
@@ -68,8 +67,8 @@
         }
     
         function deleteRecord() {
-            const deleteName = document.getElementById("deleteName").value;
-            const deleteNum = document.getElementById("deleteNum").value;
+            const deleteName = encodeURIComponent(document.getElementById("deleteName").value);
+            const deleteNum = encodeURIComponent(document.getElementById("deleteNum").value);
     
             fetch('/api/deleteRecord', {
                 method: 'POST',
@@ -84,8 +83,8 @@
         }
     
         function getRecord() {
-            const getName = document.getElementById("getName").value;
-            const getNum = document.getElementById("getNum").value;
+            const getName = encodeURIComponent(document.getElementById("getName").value);
+            const getNum = encodeURIComponent(document.getElementById("getNum").value);
     
             fetch('/api/getRecord', {
                 method: 'POST',
@@ -100,10 +99,10 @@
         }
     
         function updateRecord() {
-            const updateName = document.getElementById("updateName").value;
-            const updateNum = document.getElementById("updateNum").value;
-            const newName = document.getElementById("newName").value;
-            const newNum = document.getElementById("newNum").value;
+            const updateName = encodeURIComponent(document.getElementById("updateName").value);
+            const updateNum = encodeURIComponent(document.getElementById("updateNum").value);
+            const newName = encodeURIComponent(document.getElementById("newName").value);
+            const newNum = encodeURIComponent(document.getElementById("newNum").value);
     
             fetch('/api/updateRecord', {
                 method: 'POST',
@@ -117,7 +116,7 @@
             .catch(error => console.error('Error:', error));
         }
     </script>
-
+    
 <style>
     body {
     font-family: Arial, sans-serif;
