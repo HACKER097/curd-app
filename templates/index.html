@@ -37,6 +37,14 @@
         <p id="recordResult"></p>
     </form>
 
+    <h2>Search Record</h2>
+    <form id="searchRecordForm">
+        <label for="searchName">Name:</label>
+        <input type="text" id="searchName" name="searchName" required>
+        <button type="button" onclick="searchRecord()">Search Record</button>
+        <p id="searchResult"></p>
+    </form>
+
     <h2>Update Record</h2>
     <form id="updateRecordForm">
         <label for="updateName">Name:</label>
@@ -98,6 +106,21 @@
             .catch(error => console.error('Error:', error));
         }
     
+        function searchRecord() {
+            const searchName = encodeURIComponent(document.getElementById("searchName").value);
+    
+            fetch('/api/searchRecord', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `name=${searchName}`,
+            })
+            .then(response => response.json())
+            .then(data => document.getElementById("searchResult").innerText = JSON.stringify(data))
+            .catch(error => console.error('Error:', error));
+        }
+
         function updateRecord() {
             const updateName = encodeURIComponent(document.getElementById("updateName").value);
             const updateNum = encodeURIComponent(document.getElementById("updateNum").value);

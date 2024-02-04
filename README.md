@@ -53,6 +53,23 @@ which fixed the issue
 
 **Resources used**: [1](https://stackoverflow.com/questions/10434599/get-the-data-received-in-a-flask-request) [2](https://www.geeksforgeeks.org/get-the-data-received-in-a-flask-request/)
 
+## Search not working
+
+When creating the sql query for searching, I used the like clause which is written like `"%query%"`, but it cannot be done directly using "?" systax.
+
+I had to change 
+
+```python
+cur.execute("SELECT * FROM CONTACTS WHERE NAME LIKE '%?%'", (name,))
+```
+
+to 
+
+```python
+cur.execute("SELECT * FROM CONTACTS WHERE NAME LIKE ?", ('%' + name + '%',))
+```
+
+and then it worked
 
 ## References
 

@@ -51,6 +51,35 @@ def getRecord():
 
     return jsonify(data)
 
+
+@app.route("/api/searchRecord", methods=['POST'])
+def searchRecord():
+    name = request.form.get("name")
+
+    con = sqlite3.connect("database.db")
+    cur = con.cursor()
+
+    #     cur.execute("SELECT * FROM CONTACTS WHERE NAME LIKE '%?%'", (name,))
+    cur.execute("SELECT * FROM CONTACTS WHERE NAME LIKE ?", ('%' + name + '%',))
+
+    data = cur.fetchall()
+
+    return jsonify(data)
+
+@app.route("/api/search", methods=['GET'])
+def search():
+    name = request.args.get("query")
+
+    con = sqlite3.connect("database.db")
+    cur = con.cursor()
+
+    cur.execute("SELECT * FROM CONTACTS WHERE NAME LIKE ?", ('%' + name + '%',))
+
+    data = cur.fetchall()
+
+    return jsonify(data)
+
+
 @app.route("/api/updateRecord", methods=['POST'])
 def updateRecord():
     name = request.form.get("name")
