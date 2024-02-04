@@ -57,6 +57,14 @@
         <input type="text" id="newNum" name="newNum" required>
         <button type="button" onclick="updateRecord()">Update Record</button>
     </form>
+
+    <h2>Get All</h2>
+    <form id="getAllForm">
+        <button type="button" onclick="getAll()">Get All</button>
+        <p id="AllResult"></p>
+    </form>
+
+
     <script>
         function addRecord() {
             const name = encodeURIComponent(document.getElementById("name").value);
@@ -118,6 +126,19 @@
             })
             .then(response => response.json())
             .then(data => document.getElementById("searchResult").innerText = JSON.stringify(data))
+            .catch(error => console.error('Error:', error));
+        }
+
+        function getAll() {    
+            fetch('/api/getAll', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: ``,
+            })
+            .then(response => response.json())
+            .then(data => document.getElementById("AllResult").innerText = JSON.stringify(data))
             .catch(error => console.error('Error:', error));
         }
 
