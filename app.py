@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 import sqlite3
+import DatabaseCreation
 
 app = Flask(__name__)
 
@@ -70,8 +71,8 @@ def searchRecord():
     cur = con.cursor()
 
     #     cur.execute("SELECT * FROM CONTACTS WHERE NAME LIKE '%?%'", (name,))
-    cur.execute("SELECT * FROM CONTACTS WHERE NAME LIKE ?", ('%' + name + '%',))
 
+    cur.execute("SELECT * FROM CONTACTS WHERE NAME LIKE ?", ('%' + name + '%',))
     data = cur.fetchall()
 
     return jsonify(data)
@@ -106,6 +107,7 @@ def search():
     return jsonify(data)
 
 """
+
 
 @app.route("/api/updateRecord", methods=['POST'])
 def updateRecord():
