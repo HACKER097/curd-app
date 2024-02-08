@@ -1,6 +1,15 @@
 from flask import Flask, request, jsonify, render_template
 import sqlite3
-import DatabaseCreation
+
+connection = sqlite3.connect("database.db")
+cursor = connection.cursor()
+
+c = """CREATE TABLE IF NOT EXISTS CONTACTS(
+NAME TEXT PRIMARY KEY,
+NUM TEXT
+);"""
+
+cursor.execute(c)
 
 app = Flask(__name__)
 
@@ -15,10 +24,13 @@ def addRecord():
 
     con = sqlite3.connect("database.db")
     cur = con.cursor()
-
-    cur.execute("INSERT INTO CONTACTS VALUES(?, ?)", (name, num))
-
+    
+    try:
+        cur.execute("INSERT INTO CONTACTS VALUES(?, ?)", (name, num))
     con.commit()
+    except sqlite3.IntegrityError:
+        return "NAME ALREADY EXISTS"
+
     con.close()
 
     return "OK"
